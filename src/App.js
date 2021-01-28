@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import MainNavigation from './components/Navigation/MainNavigation'
-import LoginPage from './components/Login'
+import LoginPage from './components/Login/Login'
 import WorkoutDays from './components/Days/WorkoutDays';
 import WorkoutDay from './components/Days/WorkoutDay'
 
@@ -14,8 +14,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 const App = () => {
   let workoutData = [
     {
-        date: 'Jan 21, 2021',
-        id: '01212021',
+        date: 'Jan 28, 2021',
+        id: '01282021',
         exercises: [
             {
                 name: 'Bench Press',
@@ -41,8 +41,8 @@ const App = () => {
         ]
     },
     {
-        date: 'Jan 22, 2021',
-        id: '01222021',
+        date: 'Jan 29, 2021',
+        id: '01292021',
         exercises: [
             {
                 name: 'Overhead Press',
@@ -68,8 +68,8 @@ const App = () => {
         ]
     },
     {
-      date: 'Jan 23, 2021',
-      id: '01232021',
+      date: 'Jan 30, 2021',
+      id: '01302021',
       exercises: [
           {
               name: 'Barbell Row',
@@ -95,8 +95,8 @@ const App = () => {
       ] 
     },
   {
-    date: 'Jan 24, 2021',
-    id: '01242021',
+    date: 'Jan 31, 2021',
+    id: '01312021',
     exercises: [
         {
             name: 'Sumo Deadlift',
