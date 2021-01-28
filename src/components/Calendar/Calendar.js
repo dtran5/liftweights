@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { 
     addMonths, 
     subMonths, 
-    format, 
+    format,
+    startOfToday, 
     startOfWeek,
     startOfMonth, 
     endOfWeek,
@@ -14,7 +16,9 @@ import {
  } from "date-fns"
 import "./Calendar.css"
 
-const Calendar = () => {
+const Calendar = (props) => {
+    
+
     
     
     //Tells Calendar current date so it can render proper month
@@ -76,6 +80,7 @@ const Calendar = () => {
         };
 
     const cells = () => {
+
         const monthStart = startOfMonth(currentDate);
         const monthEnd = endOfMonth(currentDate);
 
@@ -89,7 +94,8 @@ const Calendar = () => {
 
         //renders correct date in each cell, formatted
         const dateFormat = "d";
-
+        //formats and renders each date as a unique URL param
+        const linkFormatting = "MM-dd-yyyy"
         //used to render all weeks of a given month
         //this is the one actually rendered when function runs
         const rows = [];
@@ -101,6 +107,14 @@ const Calendar = () => {
         let day = startDate;
         let formattedDate = "";
 
+        //provides our unique URL param
+        //empty string gets filled during while loop
+        let linkId = "";
+        
+        
+        
+        
+
         //this loop continues as long as day is less than/equal to enddate
         //gurantees loop runs entire month and stops at the end
         while (day <= endDate) {
@@ -111,25 +125,43 @@ const Calendar = () => {
                 //clones day which is = to startdate = to start of given month
                 const cloneDay = day;
 
+
+                //LinkId is provided and formatted
+                linkId = format(day, linkFormatting)
+                
                 //at end of 7 iterations, days array gets pushed into rows array as a 
                 //SINGLE div.
                 //array is then cleared and the next week begins 
                 //once the loops condition is met, we return the full rows array as a single div
                 //the rows array is ultimately the one rendered
                 days.push(
-                    <div
+                    <Link
+                        to={`/dailyworkout/${linkId}`}
                         //ternary operator for our class name
                         //if our days not in same month, add disable class
                         className={`column cell ${!isSameMonth(day, monthStart)
-                        ? "disabled" : isSameDay(day, selectedDate)
-                        //if the date is the same as today's date, add selected class
-                        ? "selected": ""}`}
+                            ? "disabled" : isSameDay(day, selectedDate)
+                            //if the date is the same as today's date, add selected class
+                            ? "selected": ""}`}
                         key={day}
                         onClick = {() => onDateClick(toDate(cloneDay))}
-                >
-                    <span className="number">{formattedDate}</span>
-                    <span className="bg">{formattedDate}</span>
-                </div>
+                        
+                    >
+                        <div
+                                
+                        >
+                            <span className="number">{formattedDate}</span>
+                            <span className="bg">{formattedDate}</span>
+                            
+                            {/* <span>
+                                {
+                                    (testDate === today)
+                                    ? 'yes'
+                                    : 'ru'
+                                }
+                            </span> */}
+                        </div>
+                    </Link>
                 );
                 day = addDays(day, 1)
             }
