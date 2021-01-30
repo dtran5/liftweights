@@ -4,7 +4,6 @@ import {
     addMonths, 
     subMonths, 
     format,
-    startOfToday, 
     startOfWeek,
     startOfMonth, 
     endOfWeek,
@@ -17,8 +16,6 @@ import {
 import "./Calendar.css"
 
 const Calendar = (props) => {
-    
-
     
     
     //Tells Calendar current date so it can render proper month
@@ -153,13 +150,6 @@ const Calendar = (props) => {
                             <span className="number">{formattedDate}</span>
                             <span className="bg">{formattedDate}</span>
                             
-                            {/* <span>
-                                {
-                                    (testDate === today)
-                                    ? 'yes'
-                                    : 'ru'
-                                }
-                            </span> */}
                         </div>
                     </Link>
                 );

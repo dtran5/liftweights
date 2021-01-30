@@ -59,7 +59,8 @@ header {
     background: white;
     border: 1px solid lightgray;
     height: auto;
-    margin:0 auto;
+    margin: 0 auto;
+    padding-left: 2rem;
 }
 .calendar .header {
     text-align: center;

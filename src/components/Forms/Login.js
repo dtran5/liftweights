@@ -1,18 +1,24 @@
 import React from 'react';
 import { Container, Form, Row, Col } from 'react-bootstrap'
+import { useHistory } from 'react-router-dom'
 
-const DUMMY_LOGIN = [
-    {
-        name: 'Chloe',
-        password: 'Chubby'
-    }
-]
 
-const LoginPage = (props) => {
+const Login = (props) => {
+
+    const DUMMY_LOGIN = [
+        {
+            name: 'Chloe',
+            password: 'Chubby'
+        }
+    ]
+
+    const history = useHistory()
+    console.log(history);
+    
     //Programmatically redirects to list of workouts if logged in
-    if (DUMMY_LOGIN) {
-        props.history.push('/dailyworkouts')
-    }
+    // if (DUMMY_LOGIN) {
+    //     history.push('/dailyworkouts')
+    // }
 
     return (
         <Row className="justify-content-center mt-5" md={2}>
@@ -36,4 +42,4 @@ const LoginPage = (props) => {
     )
 }
 
-export default LoginPage
+export default Login
