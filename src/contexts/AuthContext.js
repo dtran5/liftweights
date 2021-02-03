@@ -8,7 +8,7 @@ const AuthContext = React.createContext()
 
 //this function allows us to use this context
 export function useAuth() {
-    //This functions returns our useContextBook which takes in the Context object
+    //This functions returns our useContext hook which takes in the Context object
     //we created that we want to make use of. //This returns us the value that we passed in
     //down at the provider - THE VALUE OBJECT!
     return useContext(AuthContext)
@@ -26,9 +26,31 @@ export function AuthProvider({ children }) {
     //this method comes from firebase
     //returns a promise
     //whenever we call createUserWithEmailAndPassword it calls setCurrentUser and
-    //sets the user for us
+    //sets the user for us within onAuthStateChanged
+    //firebase creates the local storage for us as well as tokens - FIND THIS IN VIDEO
+    //gotta make sure we return these functions because they are promises
     function signup(email, password) {
         return auth.createUserWithEmailAndPassword(email, password)
+    }
+
+    function login (email, password) {
+        return auth.signInWithEmailAndPassword(email, password)
+    }
+
+    function logout () {
+        return auth.signOut()
+    }
+
+    function resetPassword(email) {
+        return auth.sendPasswordResetEmail(email)
+    }
+
+    function updateEmail (email) {
+        return currentUser.updateEmail(email)
+    }
+
+    function updatePassword (password) {
+        return currentUser.updatePassword(password)
     }
 
     useEffect(() => {
@@ -56,7 +78,12 @@ export function AuthProvider({ children }) {
     //also pass signup so we can use anywhere
     const value = {
         currentUser,
-        signup
+        signup,
+        login,
+        logout,
+        resetPassword,
+        updateEmail,
+        updatePassword
     }
 
     //children are the components between our <AuthProvider> Tags in the
