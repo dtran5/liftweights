@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 //imports the auth module we just created in our firebase.js file
-import { auth } from '../firebase'
+import { auth, db } from '../firebase'
 
 //creates a context object with name AuthContext
 //use this context inside of provider
@@ -21,6 +21,7 @@ export function AuthProvider({ children }) {
     //initially we are loading and as soon as we get that first useEffect thats runs, it means
     //firebase did the verification to see if there was a user
     const [loading, setLoading] = useState(true)
+    const [uid, setUid] = useState('')
 
     //function uses our auth module (firebase) to signup a user
     //this method comes from firebase
@@ -29,8 +30,28 @@ export function AuthProvider({ children }) {
     //sets the user for us within onAuthStateChanged
     //firebase creates the local storage for us as well as tokens - FIND THIS IN VIDEO
     //gotta make sure we return these functions because they are promises
-    function signup(email, password) {
-        return auth.createUserWithEmailAndPassword(email, password)
+    async function signup(email, password) {
+        const userCredential = await auth.createUserWithEmailAndPassword(email, password)
+        
+        setUid(userCredential.user.uid)
+        
+
+        // await db.collection("users").doc(uid).set{{
+        //     email: email
+        // }}.then(()=>{
+        //     console.log('updated');
+        // }).catch(()=>{
+        //     console.log('failed');
+        // })
+        
+
+        // await userDocRef.set({
+        //     email: email
+        // }).then(() =>{
+        //     console.log('document update success');
+        // }).catch(()=>{
+        //     console.log('fail');
+        // })
     }
 
     function login (email, password) {
@@ -77,6 +98,7 @@ export function AuthProvider({ children }) {
     //this object is passed to our provider, we want current user
     //also pass signup so we can use anywhere
     const value = {
+        uid,
         currentUser,
         signup,
         login,

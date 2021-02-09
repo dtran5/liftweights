@@ -12,10 +12,13 @@ import Dashboard from './components/Dashboard/Dashboard'
 import Signup from './components/Forms/Signup';
 import PrivateRoute from './components/Routes/PrivateRoutes';
 import ForgotPassword from './components/Forms/ForgotPassword';
-import UpdateProfile from './components/Profile/UpdateProfile'
+import UpdateProfile from './components/Profile/UpdateProfile';
+import Test from './components/Test';
 
 
 const App = () => {
+
+  
 
   let workoutData = [
     
@@ -143,14 +146,15 @@ const App = () => {
               <Route exact path='/signup' component={Signup} />
               <Route path="/login" component={Login} />
               <Route path="/forgotpassword" component={ForgotPassword} />
+              <Route path="/test" component={Test} />
               <Route path="/dailyworkouts">
                 <WorkoutDays items={workoutData}/> 
               </Route>
               <Route path="/dailyworkout/:date">
-                <WorkoutDay items={workoutData} />
+                <RecordWorkout />
               </Route>
               <Route path='/record'>
-                <RecordWorkout />
+                <WorkoutDays items={workoutData} />
               </Route>
             </Switch>
           </main>

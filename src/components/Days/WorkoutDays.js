@@ -1,22 +1,23 @@
 import React from 'react';
 
-
 import Calendar from '../Calendar/Calendar'
 
 const WorkoutDays = (props) => {
     
     return (
-        <div>
-            <Calendar items={props}/>
-            {/* {props.items.map((workout, index) => (
-            <h5 key={index}>
-            <Link to={`/dailyworkout/${workout.id}`}>{workout.date}</Link>
+        <>
+            <div>
+                <Calendar items={props}/>
+                {/* {props.items.map((workout, index) => (
+                <h5 key={index}>
+                <Link to={`/dailyworkout/${workout.id}`}>{workout.date}</Link>
+                
+                
+                </h5>
+            ))} */}
             
-            
-            </h5>
-        ))} */}
-        
-        </div>
+            </div>
+        </>
     )
 }
 

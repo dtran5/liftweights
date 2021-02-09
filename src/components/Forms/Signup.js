@@ -3,6 +3,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { Card, Form, Button, Alert, Container } from 'react-bootstrap'
 //this is our way to use our context that we created in AuthContext
 import { useAuth } from '../../contexts/AuthContext'
+import { db } from '../../firebase'
 
 
 
@@ -10,7 +11,7 @@ function Signup() {
     const emailRef = useRef()
     const passwordRef = useRef()
     const passwordConfirmRef = useRef()
-    const { signup } = useAuth()
+    const { signup, uid } = useAuth()
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
     const history = useHistory()
@@ -18,6 +19,8 @@ function Signup() {
     //this is an async function - had to check passwords and get back to us
     async function handleSubmit(e) {
         e.preventDefault()
+        
+        
 
         if (passwordRef.current.value !== passwordConfirmRef.current.value) {
             //we return here because we want to immediately exit the function and not keep going
@@ -30,6 +33,7 @@ function Signup() {
         try {
             setError('')
             setLoading(true)
+            addUserToDatabase(uid)
             await signup(emailRef.current.value, passwordRef.current.value)
             history.push('/')
         } catch {
@@ -39,6 +43,15 @@ function Signup() {
         //awaiting the signup function
         setLoading(false)
     } 
+
+    //user is added to user collection with their own uid as a document
+    function addUserToDatabase(uid) {
+        db.collection("users").doc(uid).set({
+            email: emailRef.current.value
+
+        })
+    }
+
 
     //if we are currently loading, dont want to be able to resubmit form!
     return (
