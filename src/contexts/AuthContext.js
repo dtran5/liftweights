@@ -54,7 +54,7 @@ export function AuthProvider({ children }) {
         // })
     }
 
-    function login (email, password) {
+    async function login (email, password) {
         return auth.signInWithEmailAndPassword(email, password)
     }
 
@@ -74,6 +74,7 @@ export function AuthProvider({ children }) {
         return currentUser.updatePassword(password)
     }
 
+
     useEffect(() => {
         //onAuthStateChanged is firebase recommended method for getting the
         //current user. We set an observer on the auth object
@@ -88,6 +89,7 @@ export function AuthProvider({ children }) {
             setCurrentUser(user)
             //Whenever auth state actually changes, it means we are done loading
             setLoading(false)
+            
             
         })
         //this will unsubscribe us from the onauthstatechanged listener when we unmount the

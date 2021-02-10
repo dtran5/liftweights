@@ -2,11 +2,9 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 
-
 import MainNavigation from './components/Navigation/MainNavigation'
 import Login from './components/Forms/Login'
 import WorkoutDays from './components/Days/WorkoutDays';
-import WorkoutDay from './components/Days/WorkoutDay'
 import RecordWorkout from './components/Forms/RecordWorkout';
 import Dashboard from './components/Dashboard/Dashboard'
 import Signup from './components/Forms/Signup';
@@ -17,7 +15,6 @@ import Test from './components/Test';
 
 
 const App = () => {
-
   
 
   let workoutData = [
@@ -147,19 +144,12 @@ const App = () => {
               <Route path="/login" component={Login} />
               <Route path="/forgotpassword" component={ForgotPassword} />
               <Route path="/test" component={Test} />
-              <Route path="/dailyworkouts">
-                <WorkoutDays items={workoutData}/> 
-              </Route>
-              <Route path="/dailyworkout/:date">
-                <RecordWorkout />
-              </Route>
-              <Route path='/record'>
-                <WorkoutDays items={workoutData} />
-              </Route>
+              <Route path="/dailyworkout/:date" component={RecordWorkout} />
+              <PrivateRoute path='/workouts' component={WorkoutDays} />
+
             </Switch>
           </main>
         </AuthProvider>
-        
       </Router>
        
     )

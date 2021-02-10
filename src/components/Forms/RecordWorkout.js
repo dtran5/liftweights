@@ -1,8 +1,9 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
+import useAuthCheck from '../CustomHooks/useAuthCheck'
 import { Form, Button } from 'react-bootstrap';
-import { db } from '../../firebase';
+import { db, app } from '../../firebase';
 import { useAuth } from '../../contexts/AuthContext'
 
 
@@ -12,7 +13,7 @@ const RecordWorkout = () => {
     //grab the date from URL and use it as document name in database
     const date = useParams().date;
     //grab unique id created from database authentication
-    const { uid } = useAuth()
+    const {uid}  = useAuth()
     const nameRef = useRef();
     const setsRef = useRef()
     const repsRef = useRef()
@@ -21,12 +22,11 @@ const RecordWorkout = () => {
     const handleSubmit = (e) => {
         e.preventDefault()
         setLoading(true)
-        console.log(date);
+        
 
         db.collection("users")
-          .doc(uid).collection("dates")
-          .doc(date).collection("exercises")
-          .doc().collection("exercise-details")
+          .doc({uid}).collection("dates")
+          
           .add({
             name: nameRef.current.value,
             sets: setsRef.current.value,
@@ -40,11 +40,40 @@ const RecordWorkout = () => {
             console.log('did not work');
         })
     }
+    useEffect(() => {
+        
+    }, [])
+
+    // const handleSubmit = (e) => {
+        
+
+    //     const exerciseList = {
+    //     uid,
+    //     date,
+    //     exercises: [
+    //         {
+    //             name: nameRef.current.value,
+    //             sets: setsRef.current.value,
+    //             reps: repsRef.current.value,
+    //             weight: weightRef.current.value
+    //         }
+    //     ]
+    // }
+
+    //     e.preventDefault()
+    //     setLoading(true)
+
+    //     db.collection('users')
+    //       .doc(uid)
+    //       .set({
+    //           name: 'Dan'
+    //       })
+    // }
 
 
     return (
         <>  
-            <Link to={'/record'}>Back</Link>
+            <Link to={'/workouts'}>Back</Link>
             <Form onSubmit={handleSubmit} className="container mt-5">
                 <Form.Group controlId="exercise">
                     <Form.Label>Exercise</Form.Label>
