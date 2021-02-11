@@ -20,8 +20,6 @@ function Signup() {
     async function handleSubmit(e) {
         e.preventDefault()
         
-        
-
         if (passwordRef.current.value !== passwordConfirmRef.current.value) {
             //we return here because we want to immediately exit the function and not keep going
             //if there is an error
@@ -33,7 +31,6 @@ function Signup() {
         try {
             setError('')
             setLoading(true)
-            addUserToDatabase(uid)
             await signup(emailRef.current.value, passwordRef.current.value)
             history.push('/')
         } catch {
@@ -45,12 +42,12 @@ function Signup() {
     } 
 
     //user is added to user collection with their own uid as a document
-    function addUserToDatabase(uid) {
-        db.collection("users").doc(uid).set({
-            email: emailRef.current.value
+    // function addUserToDatabase(uid) {
+    //     db.collection("users").doc(uid).set({
+    //         email: emailRef.current.value
 
-        })
-    }
+    //     })
+    // }
 
 
     //if we are currently loading, dont want to be able to resubmit form!

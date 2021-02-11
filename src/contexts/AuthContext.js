@@ -30,28 +30,8 @@ export function AuthProvider({ children }) {
     //sets the user for us within onAuthStateChanged
     //firebase creates the local storage for us as well as tokens - FIND THIS IN VIDEO
     //gotta make sure we return these functions because they are promises
-    async function signup(email, password) {
-        const userCredential = await auth.createUserWithEmailAndPassword(email, password)
-        
-        setUid(userCredential.user.uid)
-        
-
-        // await db.collection("users").doc(uid).set{{
-        //     email: email
-        // }}.then(()=>{
-        //     console.log('updated');
-        // }).catch(()=>{
-        //     console.log('failed');
-        // })
-        
-
-        // await userDocRef.set({
-        //     email: email
-        // }).then(() =>{
-        //     console.log('document update success');
-        // }).catch(()=>{
-        //     console.log('fail');
-        // })
+    function signup(email, password) {
+        return auth.createUserWithEmailAndPassword(email, password)
     }
 
     async function login (email, password) {

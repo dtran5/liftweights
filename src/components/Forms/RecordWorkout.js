@@ -5,19 +5,22 @@ import useAuthCheck from '../CustomHooks/useAuthCheck'
 import { Form, Button } from 'react-bootstrap';
 import { db, app } from '../../firebase';
 import { useAuth } from '../../contexts/AuthContext'
+import RenderEachExercise from '../Days/RenderEachExercise';
 
 
 
 const RecordWorkout = () => {
     const [loading, setLoading] = useState(false)
+    const [exerciseList, setExerciseList] = useState([])
     //grab the date from URL and use it as document name in database
     const date = useParams().date;
     //grab unique id created from database authentication
-    const {uid}  = useAuth()
+    const { currentUser: { uid } }  = useAuth()
     const nameRef = useRef();
     const setsRef = useRef()
     const repsRef = useRef()
     const weightRef = useRef()
+    
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -25,54 +28,56 @@ const RecordWorkout = () => {
         
 
         db.collection("users")
-          .doc({uid}).collection("dates")
-          
-          .add({
+          .doc(uid)
+          .collection("dates")
+          .doc(date)
+          .collection("exercise-details")
+          .doc()
+          .set({
             name: nameRef.current.value,
             sets: setsRef.current.value,
             reps: repsRef.current.value,
             weight: weightRef.current.value
         }).then(()=>{
             console.log('worked');
-            console.log(uid);
             
         }).catch(()=>{
             console.log('did not work');
         })
     }
+
     useEffect(() => {
-        
+        getExerciseDetails()
     }, [])
 
-    // const handleSubmit = (e) => {
+    //onSnapshot is an active listener that listens for changes to the collection so when user adds new exercise, it is immediately fetched and displayed
+    //onSnapshot returns a callback for us to work on given documents
+    function getExerciseDetails() {
+        db.collection('users')
+          .doc(uid)
+          .collection("dates")
+          .doc(date)
+          .collection('exercise-details')
+          .onSnapshot(handleSnapshot)
+    }
+
+    //within the callback that onSnapshot provides, we are passed a snapshot of our data. It containes the documents in the collection. map through our docs array to return our data
+    function handleSnapshot(snapshot) {
+        const exerciseList = snapshot.docs.map((doc) => {
+            return { id: doc.id, ...doc.data() }
+        })
+        setExerciseList(exerciseList)
+        console.log(exerciseList)
         
-
-    //     const exerciseList = {
-    //     uid,
-    //     date,
-    //     exercises: [
-    //         {
-    //             name: nameRef.current.value,
-    //             sets: setsRef.current.value,
-    //             reps: repsRef.current.value,
-    //             weight: weightRef.current.value
-    //         }
-    //     ]
-    // }
-
-    //     e.preventDefault()
-    //     setLoading(true)
-
-    //     db.collection('users')
-    //       .doc(uid)
-    //       .set({
-    //           name: 'Dan'
-    //       })
-    // }
-
-
+    }
+    
     return (
-        <>  
+        <>
+            <div>
+                {exerciseList.map((exercise) => (
+                   <RenderEachExercise key={exercise.id} exercise={exercise} /> 
+                ))}
+            </div>  
             <Link to={'/workouts'}>Back</Link>
             <Form onSubmit={handleSubmit} className="container mt-5">
                 <Form.Group controlId="exercise">
