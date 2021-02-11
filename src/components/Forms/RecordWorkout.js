@@ -1,9 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-
-import useAuthCheck from '../CustomHooks/useAuthCheck'
 import { Form, Button } from 'react-bootstrap';
-import { db, app } from '../../firebase';
+import { db } from '../../firebase';
 import { useAuth } from '../../contexts/AuthContext'
 import RenderEachExercise from '../Days/RenderEachExercise';
 
@@ -63,11 +61,11 @@ const RecordWorkout = () => {
 
     //within the callback that onSnapshot provides, we are passed a snapshot of our data. It containes the documents in the collection. map through our docs array to return our data
     function handleSnapshot(snapshot) {
-        const exerciseList = snapshot.docs.map((doc) => {
-            return { id: doc.id, ...doc.data() }
+        const exerciseList = snapshot.docs.map((exercise) => {
+            return { id: exercise.id, ...exercise.data() }
         })
         setExerciseList(exerciseList)
-        console.log(exerciseList)
+        
         
     }
     
