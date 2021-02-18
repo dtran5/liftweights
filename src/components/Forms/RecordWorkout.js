@@ -18,7 +18,8 @@ const RecordWorkout = () => {
     const setsRef = useRef()
     const repsRef = useRef()
     const weightRef = useRef()
-    
+
+   
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -45,19 +46,21 @@ const RecordWorkout = () => {
     }
 
     useEffect(() => {
+        function getExerciseDetails() {
+            db.collection('users')
+              .doc(uid)
+              .collection("dates")
+              .doc(date)
+              .collection('exercise-details')
+              .onSnapshot(handleSnapshot)
+        }
+
         getExerciseDetails()
-    }, [])
+    }, [date, uid])
 
     //onSnapshot is an active listener that listens for changes to the collection so when user adds new exercise, it is immediately fetched and displayed
     //onSnapshot returns a callback for us to work on given documents
-    function getExerciseDetails() {
-        db.collection('users')
-          .doc(uid)
-          .collection("dates")
-          .doc(date)
-          .collection('exercise-details')
-          .onSnapshot(handleSnapshot)
-    }
+    
 
     //within the callback that onSnapshot provides, we are passed a snapshot of our data. It containes the documents in the collection. map through our docs array to return our data
     function handleSnapshot(snapshot) {
@@ -65,7 +68,7 @@ const RecordWorkout = () => {
             return { id: exercise.id, ...exercise.data() }
         })
         setExerciseList(exerciseList)
-        
+       
         
     }
     
@@ -77,6 +80,7 @@ const RecordWorkout = () => {
                 ))}
             </div>  
             <Link to={'/workouts'}>Back</Link>
+            {}
             <Form onSubmit={handleSubmit} className="container mt-5">
                 <Form.Group controlId="exercise">
                     <Form.Label>Exercise</Form.Label>

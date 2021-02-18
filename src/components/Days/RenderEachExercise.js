@@ -17,15 +17,6 @@ const RenderEachExercise = ( { exercise: {name, sets, reps, weight, id} }) => {
 
     const capitalName = capitalizeFirstLetter(name)
 
-    // function getExerciseDetails() {
-    //     db.collection('users')
-    //       .doc(uid)
-    //       .collection("dates")
-    //       .doc(date)
-    //       .collection('exercise-details')
-    //       .onSnapshot(handleSnapshot)
-    // }
-
     function handleDelete() {
         const exerciseRef = 
           db.collection("users")
@@ -50,11 +41,11 @@ const RenderEachExercise = ( { exercise: {name, sets, reps, weight, id} }) => {
         <Container>
             <Card>
                 <Card.Header>{capitalName}</Card.Header>
-                <Button onClick={handleDelete} type="button">Delete</Button>
                 <ListGroup variant="flush">
                 <ListGroup.Item>Sets: {sets}</ListGroup.Item>
                 <ListGroup.Item>Reps: {reps}</ListGroup.Item>
                 <ListGroup.Item>Weight: {weight}</ListGroup.Item>
+                <Button onClick={handleDelete} type="button">Delete</Button>
                 </ListGroup>
             </Card>
         </Container>

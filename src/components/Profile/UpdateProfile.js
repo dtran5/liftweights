@@ -1,22 +1,24 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { Card, Form, Button, Alert, Container } from 'react-bootstrap'
 //this is our way to use our context that we created in AuthContext
 import { useAuth } from '../../contexts/AuthContext'
-
-
+import { auth } from '../../firebase';
 
 function UpdateProfile() {
-    const emailRef = useRef()
-    const passwordRef = useRef()
-    const passwordConfirmRef = useRef()
-    const { currentUser, updateEmail, updatePassword } = useAuth()
-    const [error, setError] = useState('')
-    const [loading, setLoading] = useState(false)
-    const history = useHistory()
+    const nameRef = useRef()
+    const emailRef = useRef();
+    const passwordRef = useRef();
+    const passwordConfirmRef = useRef();
+    const { currentUser, updateEmail, updatePassword } = useAuth();
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
+    const history = useHistory();
 
     //this is an async function - had to check passwords and get back to us
     function handleSubmit(e) {
+        const user = auth.currentUser
+
         e.preventDefault()
 
         if (passwordRef.current.value !== passwordConfirmRef.current.value) {
@@ -28,6 +30,19 @@ function UpdateProfile() {
         const promises = []
         setLoading(true)
         setError("")
+
+        //name change works but doesnt rerender correctly in header when changed
+        //needs to be fixed
+        if(nameRef.current.value !== currentUser.displayName) {
+            user.updateProfile({
+                displayName: nameRef.current.value
+            }).then(() => {
+                console.log('Name changed');
+            }).catch(()=>{
+                console.error('Name change failed')
+            })
+        }     
+
         //if updated email doesnt equal current email, then call updateemail function and pass it the new updated email
         if (emailRef.current.value !== currentUser.email) {
             promises.push(updateEmail(emailRef.current.value))
@@ -35,7 +50,7 @@ function UpdateProfile() {
 
         if(passwordRef.current.value) {
             promises.push(updatePassword(passwordRef.current.value))
-        }
+        }   
 
         //As soon as all of our above promises finish, we run a .then if they are all successful
         //takes in our array of promises
@@ -65,6 +80,15 @@ function UpdateProfile() {
                             <h2 className="text-center mb-4">Update Profile</h2>
                             {error && <Alert variant="danger">{error}</Alert>}
                             <Form onSubmit={handleSubmit}>
+                            <Form.Group id="name">
+                                    <Form.Label>Full Name</Form.Label>
+                                    <Form.Control 
+                                        type="text" 
+                                        ref={nameRef} 
+                                        placeholder="Make this functional"
+                                        required defaultValue={currentUser.displayName}
+                                    />
+                                </Form.Group>
                                 <Form.Group id="email">
                                     <Form.Label>Email</Form.Label>
                                     <Form.Control 

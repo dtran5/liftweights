@@ -22,6 +22,7 @@ export function AuthProvider({ children }) {
     //firebase did the verification to see if there was a user
     const [loading, setLoading] = useState(true)
     const [uid, setUid] = useState('')
+    
 
     //function uses our auth module (firebase) to signup a user
     //this method comes from firebase
@@ -30,8 +31,24 @@ export function AuthProvider({ children }) {
     //sets the user for us within onAuthStateChanged
     //firebase creates the local storage for us as well as tokens - FIND THIS IN VIDEO
     //gotta make sure we return these functions because they are promises
-    function signup(email, password) {
-        return auth.createUserWithEmailAndPassword(email, password)
+    async function signup(name, email, password, select) {
+        const newUser = await auth.createUserWithEmailAndPassword(email, password)
+
+        await newUser.user.updateProfile({
+            displayName: name
+        })
+
+        
+        await setUid(newUser.user.uid)
+        
+        
+        //creates user in db and sets the usertype to selected value in dropdown
+        return await db.collection("users").doc(newUser.user.uid).set({
+            userType: select
+        })
+        
+        
+        
     }
 
     async function login (email, password) {

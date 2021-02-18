@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useContext } from 'react';
 import{ Link, useHistory } from 'react-router-dom';
 import { Container, Card, Form, Button, Alert } from 'react-bootstrap'
 //this is our way to use our context that we created in AuthContext
@@ -8,6 +8,7 @@ import { useAuth } from '../../contexts/AuthContext';
 
 
 function Login() {
+    
     const emailRef = useRef()
     const passwordRef = useRef()
     const history = useHistory()
@@ -26,6 +27,7 @@ function Login() {
             setError('')
             setLoading(true)
             await login(emailRef.current.value, passwordRef.current.value)
+           
             history.push('/')
         } catch {
             setError('Failed to log in to your account')

@@ -3,16 +3,16 @@ import { Link, useHistory } from 'react-router-dom';
 import { Card, Form, Button, Alert, Container } from 'react-bootstrap'
 //this is our way to use our context that we created in AuthContext
 import { useAuth } from '../../contexts/AuthContext'
-import { db } from '../../firebase'
-
 
 
 function Signup() {
+    const nameRef = useRef()
     const emailRef = useRef()
     const passwordRef = useRef()
     const passwordConfirmRef = useRef()
-    const { signup, uid } = useAuth()
+    const { signup, currentUser } = useAuth()
     const [error, setError] = useState('')
+    const [select, setSelect] = useState("Trainer's Client")
     const [loading, setLoading] = useState(false)
     const history = useHistory()
 
@@ -31,7 +31,7 @@ function Signup() {
         try {
             setError('')
             setLoading(true)
-            await signup(emailRef.current.value, passwordRef.current.value)
+            await signup(nameRef.current.value, emailRef.current.value, passwordRef.current.value, select)
             history.push('/')
         } catch {
             setError('Failed to create an account')
@@ -41,14 +41,10 @@ function Signup() {
         setLoading(false)
     } 
 
-    //user is added to user collection with their own uid as a document
-    // function addUserToDatabase(uid) {
-    //     db.collection("users").doc(uid).set({
-    //         email: emailRef.current.value
-
-    //     })
-    // }
-
+    function handleSelect(select) {
+        setSelect(select)
+        
+    }
 
     //if we are currently loading, dont want to be able to resubmit form!
     return (
@@ -63,6 +59,21 @@ function Signup() {
                             <h2 className="text-center mb-4">Sign Up</h2>
                             {error && <Alert variant="danger">{error}</Alert>}
                             <Form onSubmit={handleSubmit}>
+                                <h6 style={{ fontWeight: "400" }}>Are you:</h6>
+                                <Form.Control 
+                                    onChange={(e) => handleSelect(e.target.value)} 
+                                    id="select" 
+                                    size="sm" 
+                                    as="select"
+                                >
+                                    <option>Trainer's Client</option>
+                                    <option>Trainer</option>
+                                </Form.Control>
+                                <br />
+                            <Form.Group id="name">
+                                    <Form.Label>Name</Form.Label>
+                                    <Form.Control type="text" ref={nameRef} required />
+                                </Form.Group>
                                 <Form.Group id="email">
                                     <Form.Label>Email</Form.Label>
                                     <Form.Control type="email" ref={emailRef} required />
