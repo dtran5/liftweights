@@ -70,7 +70,7 @@ function Signup() {
                                     <option>Trainer</option>
                                 </Form.Control>
                                 <br />
-                            <Form.Group id="name">
+                                <Form.Group id="name">
                                     <Form.Label>Name</Form.Label>
                                     <Form.Control type="text" ref={nameRef} required />
                                 </Form.Group>

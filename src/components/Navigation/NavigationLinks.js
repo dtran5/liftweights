@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Navbar, Nav } from 'react-bootstrap';
 import { useAuth } from '../../contexts/AuthContext'
@@ -14,35 +14,36 @@ const NavigationLinks = () => {
 
     const activeLinkColor = '#ffdf00'
 
-    function getUserType() {
-        //checks to make sure user is logged in, if not wont run
-        //important because otherwise it cant read uid of undefined
+    async function getUserType(currentUser) {
         if (currentUser) {
-            let docRef = db.collection('users').doc(currentUser.uid)
-            docRef.get().then((doc) => {
-                if (doc.exists) {
-                    setUserType(doc.data().userType)
-                    
-                } else {
-                    // doc.data() will be undefined in this case
-                    console.log("No such document!");
-                    
-                }
-            }).catch((error) => {
-                console.log("Error getting document:", error);
-            });
+            //reference our doc
+            const trainerRef = await db.collection('trainers').doc(currentUser.uid).get();
+            //open our doc and read, doesnt assign trainer a value until the promise is returned
+            const trainer = await trainerRef.data();
+
+            const clientRef = await db.collection('users').doc(currentUser.uid).get();
+            const client = clientRef.data();
+
+            if (currentUser && trainer) {
+                setUserType("Trainer")
+            }
+
+            if (currentUser && client) {
+                setUserType("Client")
+            }
         }
+        
     }
-    getUserType()
-       
     
+    getUserType(currentUser)
 
     return (
         <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="ml-auto">
                     {currentUser && (userType === "Trainer")
                     ? <NavLink activeStyle={{ color: activeLinkColor }} className="nav-link" to='/clients'>Client Workouts</NavLink>
-                    : <NavLink activeStyle={{ color: activeLinkColor }} className="nav-link" to='/workouts'>Workouts</NavLink>}
+                    : <NavLink activeStyle={{ color: activeLinkColor }} className="nav-link" to='/workouts'>Workouts</NavLink>
+                    }
                     
                     
                     { 

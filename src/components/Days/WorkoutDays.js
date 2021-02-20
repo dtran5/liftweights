@@ -3,7 +3,7 @@ import React from 'react';
 import Calendar from '../Calendar/Calendar'
 
 const WorkoutDays = (props) => {
-    
+    //show the calendar that is created by the trainer matched by email
     return (
         <>
             <div>

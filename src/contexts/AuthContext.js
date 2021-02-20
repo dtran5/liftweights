@@ -23,7 +23,6 @@ export function AuthProvider({ children }) {
     const [loading, setLoading] = useState(true)
     const [uid, setUid] = useState('')
     
-
     //function uses our auth module (firebase) to signup a user
     //this method comes from firebase
     //returns a promise
@@ -38,17 +37,23 @@ export function AuthProvider({ children }) {
             displayName: name
         })
 
+        //Gives every user (trainer or client) an email property in auth object
+        await newUser.user.updateEmail(email)
+
         
         await setUid(newUser.user.uid)
         
         
-        //creates user in db and sets the usertype to selected value in dropdown
-        return await db.collection("users").doc(newUser.user.uid).set({
-            userType: select
-        })
-        
-        
-        
+        //creates user or trainer in db and sets the usertype to selected value in dropdown
+        if (select === "Trainer") {
+            return await db.collection("trainers").doc(newUser.user.uid).set({
+                userType: select
+            })
+        } else {
+            return await db.collection("users").doc(newUser.user.uid).set({
+                userType: select
+            })
+        }
     }
 
     async function login (email, password) {

@@ -13,7 +13,7 @@ const RecordWorkout = () => {
     //grab the date from URL and use it as document name in database
     const date = useParams().date;
     //grab unique id created from database authentication
-    const { currentUser: { uid } }  = useAuth()
+    const { currentUser: { uid, email } }  = useAuth()
     const nameRef = useRef();
     const setsRef = useRef()
     const repsRef = useRef()
@@ -21,11 +21,22 @@ const RecordWorkout = () => {
 
    
 
-    const handleSubmit = (e) => {
+    async function handleSubmit (e) {
         e.preventDefault()
         setLoading(true)
         
+        //MAKE THIS EMAIL OF THE CLIENT
+        //Sets trainer's currently worked on client's email to each date so it can be verified later
+        await 
+        db.collection("users")
+            .doc(uid)
+            .collection("dates")
+            .doc(date)
+            .set({
+                email: email
+        })
 
+        await 
         db.collection("users")
           .doc(uid)
           .collection("dates")
@@ -62,7 +73,8 @@ const RecordWorkout = () => {
     //onSnapshot returns a callback for us to work on given documents
     
 
-    //within the callback that onSnapshot provides, we are passed a snapshot of our data. It containes the documents in the collection. map through our docs array to return our data
+    //within the callback that onSnapshot provides, we are passed a snapshot of our data. It contains the documents in the collection. map through our docs array to return our data
+    //exercise.id grabs the id of the document of the individual exercise and then exercise.data() opens the document and retrieves its contents
     function handleSnapshot(snapshot) {
         const exerciseList = snapshot.docs.map((exercise) => {
             return { id: exercise.id, ...exercise.data() }

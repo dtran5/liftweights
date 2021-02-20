@@ -7,6 +7,7 @@ import { auth } from '../../firebase';
 
 function UpdateProfile() {
     const nameRef = useRef()
+    const [name, setName] = useState('')
     const emailRef = useRef();
     const passwordRef = useRef();
     const passwordConfirmRef = useRef();
@@ -19,6 +20,7 @@ function UpdateProfile() {
     function handleSubmit(e) {
         const user = auth.currentUser
 
+        
         e.preventDefault()
 
         if (passwordRef.current.value !== passwordConfirmRef.current.value) {
@@ -37,6 +39,7 @@ function UpdateProfile() {
             user.updateProfile({
                 displayName: nameRef.current.value
             }).then(() => {
+                setName(nameRef.current.value)
                 console.log('Name changed');
             }).catch(()=>{
                 console.error('Name change failed')

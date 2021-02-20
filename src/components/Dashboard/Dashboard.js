@@ -10,20 +10,29 @@ function Dashboard() {
     const { currentUser, logout } = useAuth()
     const history = useHistory()
 
-    let docRef = db.collection('users').doc(currentUser.uid)
-    
-    docRef.get().then((doc) => {
-        if (doc.exists) {
-            setUserType(doc.data().userType)
-            
+    async function getUserType(currentUser) {
+        //reference our doc
+        const trainerRef = await db.collection('trainers').doc(currentUser.uid).get();
+        //open our doc and read, doesnt assign trainer a value until the promise is returned
+        const trainer = await trainerRef.data();
+        
+
+        const clientRef = await db.collection('users').doc(currentUser.uid).get();
+        const client = clientRef.data();
+        
+        if (trainer && trainer.userType === "Trainer") {
+           setUserType("Trainer")
         } else {
-            // doc.data() will be undefined in this case
-            console.log("No such document!");
-            
+            setUserType("Client")
         }
-    }).catch((error) => {
-        console.log("Error getting document:", error);
-    });
+
+        // if (client && client.userType === "Client") {
+        //     setUserType("Client") 
+        // }
+    }
+
+    getUserType(currentUser)
+    
 
     async function handleLogout() {
         setError('')
@@ -47,8 +56,9 @@ function Dashboard() {
                         <Card.Body>
                             <h2 className="text-center mb-4">Profile</h2>
                             {error && <Alert variant="danger">{error}</Alert>}
-                            <strong>User Type: </strong> 
-                            {userType === "Trainer" ? 'Trainer' : 'Client'}
+                            <strong>User Type: </strong> {(userType === "Trainer" ? 'Trainer' : 'Client')}
+                            <br />
+                            <strong>Name:</strong> {currentUser.displayName}
                             <br />
                             <strong>Email:</strong> {currentUser.email}
                             <Link to="/update-profile" className="btn btn-primary w-100 mt-3">Update Profile</Link>
