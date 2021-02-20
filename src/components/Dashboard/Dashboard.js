@@ -15,20 +15,14 @@ function Dashboard() {
         const trainerRef = await db.collection('trainers').doc(currentUser.uid).get();
         //open our doc and read, doesnt assign trainer a value until the promise is returned
         const trainer = await trainerRef.data();
-        
+                
 
-        const clientRef = await db.collection('users').doc(currentUser.uid).get();
-        const client = clientRef.data();
-        
         if (trainer && trainer.userType === "Trainer") {
            setUserType("Trainer")
         } else {
             setUserType("Client")
         }
 
-        // if (client && client.userType === "Client") {
-        //     setUserType("Client") 
-        // }
     }
 
     getUserType(currentUser)

@@ -32,12 +32,12 @@ const App = () => {
                 <PrivateRoute exact path="/" component={Dashboard} />
                 <PrivateRoute path="/update-profile" component={UpdateProfile} />
                 <Route path="/clients" component={ClientList} />
-                <Route path="/client/:email" component={WorkoutDays} />
+                <Route exact path="/client/:email" component={WorkoutDays} />
                 <Route exact path='/signup' component={Signup} />
                 <Route path="/login" component={Login} />
                 <Route path="/forgotpassword" component={ForgotPassword} />
-                <Route path="/dailyworkout/:date" component={RecordWorkout} />
-                <PrivateRoute path='/workouts' component={WorkoutDays} />
+                <Route path="/client/:email/:date" component={RecordWorkout} />
+                
 
               </Switch>
             </main>

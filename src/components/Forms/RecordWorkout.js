@@ -8,7 +8,7 @@ import RenderEachExercise from '../Days/RenderEachExercise';
 
 
 const RecordWorkout = () => {
-    const [loading, setLoading] = useState(false)
+    const emailOfClient = useParams().email
     const [exerciseList, setExerciseList] = useState([])
     //grab the date from URL and use it as document name in database
     const date = useParams().date;
@@ -19,11 +19,9 @@ const RecordWorkout = () => {
     const repsRef = useRef()
     const weightRef = useRef()
 
-   
-
     async function handleSubmit (e) {
         e.preventDefault()
-        setLoading(true)
+
         
         //MAKE THIS EMAIL OF THE CLIENT
         //Sets trainer's currently worked on client's email to each date so it can be verified later
@@ -91,7 +89,7 @@ const RecordWorkout = () => {
                    <RenderEachExercise key={exercise.id} exercise={exercise} /> 
                 ))}
             </div>  
-            <Link to={'/workouts'}>Back</Link>
+            <Link to={`/client/${emailOfClient}`}>Back</Link>
             {}
             <Form onSubmit={handleSubmit} className="container mt-5">
                 <Form.Group controlId="exercise">

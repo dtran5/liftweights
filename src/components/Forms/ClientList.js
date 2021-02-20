@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Container, Button, Row, Col, Form } from 'react-bootstrap'
 import { db } from '../../firebase'
 import { useAuth } from '../../contexts/AuthContext'
-import RenderEachExercise from '../Days/RenderEachExercise'
 import RenderEachClient from '../Days/RenderEachClient'
 
 function ClientList() {
@@ -43,14 +42,12 @@ function ClientList() {
         }
 
         getClients()
-        console.log(clientList);
-    }, [])
+    }, [clientList, uid])
 
     
 
     function handleSnapshot(snapshot) {
         const clientList = snapshot.docs.map((client) => {
-            console.log(client.id);
             return { id: client.id, ...client.data() }
         })
 

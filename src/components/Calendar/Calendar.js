@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { 
     addMonths, 
     subMonths, 
@@ -13,10 +13,11 @@ import {
     isSameMonth,
     toDate
  } from "date-fns"
+
 import "./Calendar.css"
 
 const Calendar = (props) => {
-    
+    const emailOfClient = useParams().email
     
     //Tells Calendar current date so it can render proper month
     const [currentDate, setCurrentDate] = useState(new Date())
@@ -109,9 +110,6 @@ const Calendar = (props) => {
         let linkId = "";
         
         
-        
-        
-
         //this loop continues as long as day is less than/equal to enddate
         //gurantees loop runs entire month and stops at the end
         while (day <= endDate) {
@@ -133,7 +131,7 @@ const Calendar = (props) => {
                 //the rows array is ultimately the one rendered
                 days.push(
                     <Link
-                        to={`/dailyworkout/${linkId}`}
+                        to={`/client/${emailOfClient}/${linkId}`}
                         //ternary operator for our class name
                         //if our days not in same month, add disable class
                         className={`column cell ${!isSameMonth(day, monthStart)

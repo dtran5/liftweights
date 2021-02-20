@@ -2,13 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom'
 import { db } from '../../firebase'
 import { useAuth } from '../../contexts/AuthContext'
-import { Container, Card, ListGroup, Button, Row, Col } from 'react-bootstrap'
-import { useParams } from 'react-router-dom';
+import { Container, ListGroup, Button} from 'react-bootstrap'
+
 
 const RenderEachClient = ( { client: {name, email, id} }) => {
 
     const { currentUser: { uid } } = useAuth()
-    const date = useParams().date
+
     
     function capitalizeFirstLetter(string) {
         return string[0].toUpperCase() + string.slice(1)
