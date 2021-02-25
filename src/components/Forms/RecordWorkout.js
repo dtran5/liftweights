@@ -3,9 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { Form, Button, Table, Container } from 'react-bootstrap';
 import { db } from '../../firebase';
 import { useAuth } from '../../contexts/AuthContext'
-import RenderEachExercise from '../Days/RenderEachExercise';
-
-
+import RenderTrainerClientWorkout from '../../trainers/RenderTrainerClientWorkout';
 
 const RecordWorkout = () => {
     
@@ -23,8 +21,6 @@ const RecordWorkout = () => {
     
     async function handleSubmit (e) {
         e.preventDefault()
-
-        
         //MAKE THIS EMAIL OF THE CLIENT
         //REWORK THIS DB TO FIT YOUR STRUCTURE
         //REMOVE CLIENT ABILITY TO CREATE WORKOUT
@@ -69,7 +65,7 @@ const RecordWorkout = () => {
 
         getExerciseDetails()
 
-    }, [date, uid, emailOfClient])
+    }, [date, uid, emailOfClient, email])
 
     //onSnapshot is an active listener that listens for changes to the collection so when user adds new exercise, it is immediately fetched and displayed
     //onSnapshot returns a callback for us to work on given documents
@@ -86,83 +82,56 @@ const RecordWorkout = () => {
     
     return (
         <>
-            {
-                (trainerTypeState)
-                ?  <Link to={`/client/${emailOfClient}`}>Back</Link>
-                :  <Link to={`/${emailOfClient}`}>Back</Link>
-            }
-            {
-                (trainerTypeState)
-                ?   <Container className="d-flex justify-content-center align-items-center">
-                        <Form onSubmit={handleSubmit} className="container mt-5 w-50 mr-5">
-                            <Form.Group controlId="exercise">
-                                <Form.Label>Exercise</Form.Label>
-                                <Form.Control ref={nameRef} type="text" placeholder="Exercise Name" />
-                                <Form.Text className="text-muted">
-                                
-                                </Form.Text>
-                            </Form.Group>
+          <Link to={`/client/${emailOfClient}`}>Back</Link>
+            <Container className="d-flex justify-content-center align-items-center">
+                <Form onSubmit={handleSubmit} className="container mt-5 w-50 mr-5">
+                    <Form.Group controlId="exercise">
+                        <Form.Label>Exercise</Form.Label>
+                        <Form.Control ref={nameRef} type="text" placeholder="Exercise Name" />
+                        <Form.Text className="text-muted">
+                        
+                        </Form.Text>
+                    </Form.Group>
 
-                            <Form.Group controlId="sets">
-                                <Form.Label>Sets</Form.Label>
-                                <Form.Control ref={setsRef} type="text" placeholder="How many sets?" />
-                            </Form.Group>
-                            <Form.Group controlId="reps">
-                                <Form.Label>Reps</Form.Label>
-                                <Form.Control ref={repsRef} type="text" placeholder="How many reps per set?" />
-                                <Form.Text className="text-muted">
-                                
-                                </Form.Text>
-                            </Form.Group>
-                            <Form.Group controlId="weight">
-                                <Form.Label>Weight</Form.Label>
-                                <Form.Control ref={weightRef} type="text" placeholder="Suggested starting weight" />
-                                <Form.Text className="text-muted">
-                                
-                                </Form.Text>
-                            </Form.Group>
-                            <Button variant="primary" type="submit">
-                                Submit
-                            </Button>
-                        </Form>
-                        <Table striped bordered hover className="w-50">
-                            <thead>
-                                <tr>
-                                    <th>Exercise</th>
-                                    <th>Sets</th>
-                                    <th>Reps</th>
-                                    <th>Weight</th>
-                                    <th>Delete</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {exerciseList.map((exercise) => (
-                                <RenderEachExercise key={exercise.id} exercise={exercise} /> 
-                                ))}
-                            </tbody>
-                        </Table>
-                    </Container>
-                : 
-                <Container className="d-flex justify-content-center align-items-center">
-                    <Table striped bordered hover className="w-50">
-                        <thead>
-                            <tr>
-                                <th>Exercise</th>
-                                <th>Sets</th>
-                                <th>Reps</th>
-                                <th>Weight</th>
-                                <th>Delete</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {exerciseList.map((exercise) => (
-                            <RenderEachExercise key={exercise.id} exercise={exercise} /> 
-                            ))}
-                        </tbody>
-                    </Table>
-                </Container>
-            }
-            
+                    <Form.Group controlId="sets">
+                        <Form.Label>Sets</Form.Label>
+                        <Form.Control ref={setsRef} type="text" placeholder="How many sets?" />
+                    </Form.Group>
+                    <Form.Group controlId="reps">
+                        <Form.Label>Reps</Form.Label>
+                        <Form.Control ref={repsRef} type="text" placeholder="How many reps per set?" />
+                        <Form.Text className="text-muted">
+                        
+                        </Form.Text>
+                    </Form.Group>
+                    <Form.Group controlId="weight">
+                        <Form.Label>Weight</Form.Label>
+                        <Form.Control ref={weightRef} type="text" placeholder="Suggested starting weight" />
+                        <Form.Text className="text-muted">
+                        
+                        </Form.Text>
+                    </Form.Group>
+                    <Button variant="primary" type="submit">
+                        Submit
+                    </Button>
+                </Form>
+                <Table striped bordered hover className="w-50">
+                    <thead>
+                        <tr>
+                            <th>Exercise</th>
+                            <th>Sets</th>
+                            <th>Reps</th>
+                            <th>Weight</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {exerciseList.map((exercise) => (
+                        <RenderTrainerClientWorkout key={exercise.id} exercise={exercise} /> 
+                        ))}
+                    </tbody>
+                </Table>
+            </Container>
         </>
     )
 }

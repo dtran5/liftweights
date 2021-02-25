@@ -14,7 +14,7 @@ import {
     toDate
  } from "date-fns"
 
-import "./Calendar.css"
+import '../../styles/Calendar.scss'
 import { useAuth } from '../../contexts/AuthContext'
 
 const Calendar = (props) => {

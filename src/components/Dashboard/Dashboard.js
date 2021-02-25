@@ -30,7 +30,7 @@ function Dashboard() {
                         <Card.Body>
                             <h2 className="text-center mb-4">Profile</h2>
                             {error && <Alert variant="danger">{error}</Alert>}
-                            <strong>User Type: </strong> {trainerTypeState ? 'Trainer' : 'Client'}
+                            <strong>User: </strong> {trainerTypeState ? 'Trainer' : 'Client'}
                             <br />
                             <strong>Name:</strong> {currentUser.displayName}
                             <br />

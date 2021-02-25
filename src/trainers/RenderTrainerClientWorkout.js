@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { db } from '../../firebase'
-import { useAuth } from '../../contexts/AuthContext'
+import { db } from '../firebase'
+import { useAuth } from '../contexts/AuthContext'
 import { Button } from 'react-bootstrap'
 import { useParams } from 'react-router-dom';
 
-const RenderEachExercise = ( { exercise: {name, sets, reps, weight, id} }) => {
+const RenderTrainerClientWorkout = ( { exercise: {name, sets, reps, weight, id} }) => {
     const emailOfClient = useParams().email
     const { currentUser: { uid } } = useAuth()
     const date = useParams().date
@@ -36,7 +36,6 @@ const RenderEachExercise = ( { exercise: {name, sets, reps, weight, id} }) => {
             }).catch(error => {
                 console.error("Error deleting", error)
             })
-        
     }
     
     return (
@@ -51,4 +50,4 @@ const RenderEachExercise = ( { exercise: {name, sets, reps, weight, id} }) => {
     )
 }
 
-export default RenderEachExercise
+export default RenderTrainerClientWorkout

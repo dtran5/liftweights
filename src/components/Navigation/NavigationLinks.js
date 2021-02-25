@@ -3,15 +3,10 @@ import { NavLink } from 'react-router-dom';
 import { Navbar, Nav } from 'react-bootstrap';
 import { useAuth } from '../../contexts/AuthContext'
 
-
-
 const NavigationLinks = () => {
-
     const { logout, currentUser, clientTypeState, trainerTypeState } = useAuth()
-
     //Using React Router NavLink component to link to different pages
     //Styling using bootstrap classes
-
     const activeLinkColor = '#ffdf00'
     return (
         <Navbar.Collapse id="basic-navbar-nav">

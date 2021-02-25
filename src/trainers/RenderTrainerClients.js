@@ -1,11 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
-import { db } from '../../firebase'
-import { useAuth } from '../../contexts/AuthContext'
+import { db } from '../firebase'
+import { useAuth } from '../contexts/AuthContext'
 import { Container, ListGroup, Button} from 'react-bootstrap'
 
-
-const RenderEachClient = ( { client: {name, email, id} }) => {
+const RenderTrainerClients = ( { client: {name, email, id} }) => {
 
     const { currentUser: { uid } } = useAuth()
 
@@ -45,4 +44,4 @@ const RenderEachClient = ( { client: {name, email, id} }) => {
     )
 }
 
-export default RenderEachClient
+export default RenderTrainerClients

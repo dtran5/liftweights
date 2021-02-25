@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Container, Button, Row, Col, Form } from 'react-bootstrap'
-import { db } from '../../firebase'
-import { useAuth } from '../../contexts/AuthContext'
-import RenderEachClient from '../Days/RenderEachClient'
+import { db } from '../firebase'
+import { useAuth } from '../contexts/AuthContext'
+import RenderTrainerClients from './RenderTrainerClients'
 
-function ClientList() {
+function GetClientList() {
     const [loading, setLoading] = useState(false)
     const nameRef = useRef()
     const emailRef = useRef()
@@ -81,7 +81,7 @@ function ClientList() {
                     </Col>
                     <Col className="d-flex flex-column align-items-center mt-3" xs={12} sm={6}>
                         {clientList.map((client) => (
-                            <RenderEachClient key={client.id} client={client} />
+                            <RenderTrainerClients key={client.id} client={client} />
                         ))}
                         <Button className="w-50 mt-5">View Workouts</Button>
                     </Col>
@@ -92,4 +92,4 @@ function ClientList() {
     )
 }
 
-export default ClientList
+export default GetClientList

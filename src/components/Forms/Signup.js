@@ -4,7 +4,6 @@ import { Card, Form, Button, Alert, Container } from 'react-bootstrap'
 //this is our way to use our context that we created in AuthContext
 import { useAuth } from '../../contexts/AuthContext'
 
-
 function Signup() {
     const clientTrainerRef = useRef()
     const nameRef = useRef()

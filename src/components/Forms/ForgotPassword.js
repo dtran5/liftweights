@@ -4,9 +4,6 @@ import { Container, Card, Form, Button, Alert } from 'react-bootstrap'
 //this is our way to use our context that we created in AuthContext
 import { useAuth } from '../../contexts/AuthContext';
 
-
-
-
 function ForgotPassword() {
     const emailRef = useRef()
     
