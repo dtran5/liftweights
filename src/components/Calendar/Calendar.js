@@ -15,10 +15,11 @@ import {
  } from "date-fns"
 
 import "./Calendar.css"
+import { useAuth } from '../../contexts/AuthContext'
 
 const Calendar = (props) => {
     const emailOfClient = useParams().email
-    
+    const { currentUser, trainerTypeState } = useAuth()
     //Tells Calendar current date so it can render proper month
     const [currentDate, setCurrentDate] = useState(new Date())
     //Tells Calendar which date is selected by user to provide styling
@@ -129,28 +130,54 @@ const Calendar = (props) => {
                 //array is then cleared and the next week begins 
                 //once the loops condition is met, we return the full rows array as a single div
                 //the rows array is ultimately the one rendered
-                days.push(
-                    <Link
-                        to={`/client/${emailOfClient}/${linkId}`}
-                        //ternary operator for our class name
-                        //if our days not in same month, add disable class
-                        className={`column cell ${!isSameMonth(day, monthStart)
-                            ? "disabled" : isSameDay(day, selectedDate)
-                            //if the date is the same as today's date, add selected class
-                            ? "selected": ""}`}
-                        key={day}
-                        onClick = {() => onDateClick(toDate(cloneDay))}
-                        
-                    >
-                        <div
-                                
-                        >
-                            <span className="number">{formattedDate}</span>
-                            <span className="bg">{formattedDate}</span>
+                if (trainerTypeState) {
+                    days.push(
+                        <Link
+                            to={`/client/${emailOfClient}/${linkId}`}
+                            //ternary operator for our class name
+                            //if our days not in same month, add disable class
+                            className={`column cell ${!isSameMonth(day, monthStart)
+                                ? "disabled" : isSameDay(day, selectedDate)
+                                //if the date is the same as today's date, add selected class
+                                ? "selected": ""}`}
+                            key={day}
+                            onClick = {() => onDateClick(toDate(cloneDay))}
                             
-                        </div>
-                    </Link>
-                );
+                        >
+                            <div
+                                    
+                            >
+                                <span className="number">{formattedDate}</span>
+                                <span className="bg">{formattedDate}</span>
+                                
+                            </div>
+                        </Link>
+                    );
+                } else {
+                    days.push(
+                        <Link
+                            to={`/training/${currentUser.email}/${linkId}`}
+                            //ternary operator for our class name
+                            //if our days not in same month, add disable class
+                            className={`column cell ${!isSameMonth(day, monthStart)
+                                ? "disabled" : isSameDay(day, selectedDate)
+                                //if the date is the same as today's date, add selected class
+                                ? "selected": ""}`}
+                            key={day}
+                            onClick = {() => onDateClick(toDate(cloneDay))}
+                            
+                        >
+                            <div
+                                    
+                            >
+                                <span className="number">{formattedDate}</span>
+                                <span className="bg">{formattedDate}</span>
+                                
+                            </div>
+                        </Link>
+                    );
+                }
+                
                 day = addDays(day, 1)
             }
 

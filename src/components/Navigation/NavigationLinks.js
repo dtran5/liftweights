@@ -1,50 +1,29 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Navbar, Nav } from 'react-bootstrap';
 import { useAuth } from '../../contexts/AuthContext'
-import { db } from '../../firebase'
+
 
 
 const NavigationLinks = () => {
 
-    const { logout, currentUser } = useAuth()
-    const [userType, setUserType] = useState("")
+    const { logout, currentUser, clientTypeState, trainerTypeState } = useAuth()
+
     //Using React Router NavLink component to link to different pages
     //Styling using bootstrap classes
 
     const activeLinkColor = '#ffdf00'
-
-    async function getUserType(currentUser) {
-        if (currentUser) {
-            //reference our doc
-            const trainerRef = await db.collection('trainers').doc(currentUser.uid).get();
-            //open our doc and read, doesnt assign trainer a value until the promise is returned
-            const trainer = await trainerRef.data();
-
-            const clientRef = await db.collection('users').doc(currentUser.uid).get();
-            const client = clientRef.data();
-
-            if (currentUser && trainer) {
-                setUserType("Trainer")
-            }
-
-            if (currentUser && client) {
-                setUserType("Client")
-            }
-        }
-        
-    }
-    
-    getUserType(currentUser)
-
     return (
         <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="ml-auto">
-                    {currentUser && (userType === "Trainer")
+                    {currentUser && (trainerTypeState)
                     ? <NavLink activeStyle={{ color: activeLinkColor }} className="nav-link" to='/clients'>Client Workouts</NavLink>
-                    : <NavLink activeStyle={{ color: activeLinkColor }} className="nav-link" to='/workouts'>Workouts</NavLink>
+                    : (currentUser && clientTypeState)
+                    ? <NavLink activeStyle={{ color: activeLinkColor }} className="nav-link" to={`/${currentUser.email}`}>Workouts</NavLink>
+                    : (!currentUser)
+                    ? <NavLink activeStyle={{ color: activeLinkColor }} exact className="nav-link" to={`/clients`}>Workouts</NavLink>
+                    : ""
                     }
-                    
                     
                     { 
                         currentUser 

@@ -4,9 +4,6 @@ import { Container, Card, Form, Button, Alert } from 'react-bootstrap'
 //this is our way to use our context that we created in AuthContext
 import { useAuth } from '../../contexts/AuthContext';
 
-
-
-
 function Login() {
     
     const emailRef = useRef()
@@ -20,14 +17,13 @@ function Login() {
     //this is an async function - had to check passwords and get back to us
     async function handleSubmit(e) {
         e.preventDefault()
-
+        
         //if its successful it will - set error to empty and set a loading state which will
         //disable the submit button so users dont keep clicking and signing up
         try {
             setError('')
             setLoading(true)
             await login(emailRef.current.value, passwordRef.current.value)
-           
             history.push('/')
         } catch {
             setError('Failed to log in to your account')

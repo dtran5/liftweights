@@ -6,11 +6,12 @@ import { useAuth } from '../../contexts/AuthContext'
 
 
 function Signup() {
+    const clientTrainerRef = useRef()
     const nameRef = useRef()
     const emailRef = useRef()
     const passwordRef = useRef()
     const passwordConfirmRef = useRef()
-    const { signup} = useAuth()
+    const { signup } = useAuth()
     const [error, setError] = useState('')
     const [select, setSelect] = useState("Trainer's Client")
     const [loading, setLoading] = useState(false)
@@ -31,10 +32,15 @@ function Signup() {
         try {
             setError('')
             setLoading(true)
-            await signup(nameRef.current.value, emailRef.current.value, passwordRef.current.value, select)
+            if (select === "Trainer") {
+                await signup(nameRef.current.value, emailRef.current.value, passwordRef.current.value, select)
+            } else {
+                await signup(nameRef.current.value, emailRef.current.value, passwordRef.current.value, select, clientTrainerRef.current.value)
+            }
             history.push('/')
         } catch {
             setError('Failed to create an account')
+        
         }
         //after everything is done, setloading back to false - this is done after it is done
         //awaiting the signup function
@@ -43,8 +49,8 @@ function Signup() {
 
     function handleSelect(select) {
         setSelect(select)
-        
     }
+    
 
     //if we are currently loading, dont want to be able to resubmit form!
     return (
@@ -70,12 +76,20 @@ function Signup() {
                                     <option>Trainer</option>
                                 </Form.Control>
                                 <br />
+                                {
+                                    (select === "Trainer's Client")
+                                    ?   <Form.Group id="trainerName">
+                                            <Form.Label>Email of Your Trainer</Form.Label>
+                                            <Form.Control placeholder="Must be exact" type="text" ref={clientTrainerRef} required />
+                                        </Form.Group>
+                                    : ""
+                                }
                                 <Form.Group id="name">
-                                    <Form.Label>Name</Form.Label>
+                                    <Form.Label>Your Name</Form.Label>
                                     <Form.Control type="text" ref={nameRef} required />
                                 </Form.Group>
                                 <Form.Group id="email">
-                                    <Form.Label>Email</Form.Label>
+                                    <Form.Label>Your Email</Form.Label>
                                     <Form.Control type="email" ref={emailRef} required />
                                 </Form.Group>
                                 <Form.Group id="password">

@@ -2,32 +2,12 @@ import React, { useState } from 'react';
 import { Link, useHistory } from "react-router-dom"
 import { Container, Card, Button, Alert } from 'react-bootstrap';
 import { useAuth } from '../../contexts/AuthContext'
-import { db } from '../../firebase';
 
 function Dashboard() {
     const [error, setError] = useState("")
-    const [userType, setUserType] = useState("")
-    const { currentUser, logout } = useAuth()
+    const { currentUser, logout, trainerTypeState } = useAuth()
     const history = useHistory()
-
-    async function getUserType(currentUser) {
-        //reference our doc
-        const trainerRef = await db.collection('trainers').doc(currentUser.uid).get();
-        //open our doc and read, doesnt assign trainer a value until the promise is returned
-        const trainer = await trainerRef.data();
-                
-
-        if (trainer && trainer.userType === "Trainer") {
-           setUserType("Trainer")
-        } else {
-            setUserType("Client")
-        }
-
-    }
-
-    getUserType(currentUser)
     
-
     async function handleLogout() {
         setError('')
 
@@ -50,7 +30,7 @@ function Dashboard() {
                         <Card.Body>
                             <h2 className="text-center mb-4">Profile</h2>
                             {error && <Alert variant="danger">{error}</Alert>}
-                            <strong>User Type: </strong> {(userType === "Trainer" ? 'Trainer' : 'Client')}
+                            <strong>User Type: </strong> {trainerTypeState ? 'Trainer' : 'Client'}
                             <br />
                             <strong>Name:</strong> {currentUser.displayName}
                             <br />

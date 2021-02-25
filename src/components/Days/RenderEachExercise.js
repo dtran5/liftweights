@@ -2,11 +2,11 @@ import React from 'react';
 
 import { db } from '../../firebase'
 import { useAuth } from '../../contexts/AuthContext'
-import { Container, Card, ListGroup, Button } from 'react-bootstrap'
+import { Button } from 'react-bootstrap'
 import { useParams } from 'react-router-dom';
 
 const RenderEachExercise = ( { exercise: {name, sets, reps, weight, id} }) => {
-
+    const emailOfClient = useParams().email
     const { currentUser: { uid } } = useAuth()
     const date = useParams().date
     
@@ -19,8 +19,10 @@ const RenderEachExercise = ( { exercise: {name, sets, reps, weight, id} }) => {
 
     function handleDelete() {
         const exerciseRef = 
-          db.collection("users")
+          db.collection("trainers")
             .doc(uid)
+            .collection("trainer-clients")
+            .doc(emailOfClient)
             .collection("dates")
             .doc(date)
             .collection("exercise-details")
@@ -38,17 +40,13 @@ const RenderEachExercise = ( { exercise: {name, sets, reps, weight, id} }) => {
     }
     
     return (
-        <Container>
-            <Card>
-                <Card.Header>{capitalName}</Card.Header>
-                <ListGroup variant="flush">
-                <ListGroup.Item>Sets: {sets}</ListGroup.Item>
-                <ListGroup.Item>Reps: {reps}</ListGroup.Item>
-                <ListGroup.Item>Weight: {weight}</ListGroup.Item>
-                <Button onClick={handleDelete} type="button">Delete</Button>
-                </ListGroup>
-            </Card>
-        </Container>
+        <tr>
+            <td>{capitalName}</td>
+            <td>{sets}</td>
+            <td>{reps}</td>
+            <td>{weight}</td>
+            <td><Button onClick={handleDelete} type="button">Delete</Button></td>
+        </tr>
         
     )
 }

@@ -18,11 +18,17 @@ export function useAuth() {
 export function AuthProvider({ children }) {
     //our state for current user, by default we have no user
     const[currentUser, setCurrentUser] = useState()
+    const [clientTypeState, setClientTypeState] = useState('')
+    const [trainerTypeState, setTrainerTypeState] = useState('')
+    const [clientTrainerEmailState, setClientTrainerEmailState] = useState('')
     //initially we are loading and as soon as we get that first useEffect thats runs, it means
     //firebase did the verification to see if there was a user
     const [loading, setLoading] = useState(true)
     const [uid, setUid] = useState('')
-    
+    const [email, setEmail] = useState('')
+    // const [trainerType, setTrainerType] = useState('')
+    // const [clientType, setClientType] = useState('')
+
     //function uses our auth module (firebase) to signup a user
     //this method comes from firebase
     //returns a promise
@@ -30,7 +36,7 @@ export function AuthProvider({ children }) {
     //sets the user for us within onAuthStateChanged
     //firebase creates the local storage for us as well as tokens - FIND THIS IN VIDEO
     //gotta make sure we return these functions because they are promises
-    async function signup(name, email, password, select) {
+    async function signup(name, email, password, select, clientTrainer) {
         const newUser = await auth.createUserWithEmailAndPassword(email, password)
 
         await newUser.user.updateProfile({
@@ -39,32 +45,92 @@ export function AuthProvider({ children }) {
 
         //Gives every user (trainer or client) an email property in auth object
         await newUser.user.updateEmail(email)
-
         
         await setUid(newUser.user.uid)
         
         
         //creates user or trainer in db and sets the usertype to selected value in dropdown
+        //adds clients trainer to their user information
         if (select === "Trainer") {
-            return await db.collection("trainers").doc(newUser.user.uid).set({
-                userType: select
+            return await db.collection("trainers").doc(newUser.user.email).set({
+                userType: select,
             })
         } else {
             return await db.collection("users").doc(newUser.user.uid).set({
-                userType: select
+                userType: select,
+                clientTrainer: clientTrainer
             })
         }
     }
 
-    async function login (email, password) {
-        return auth.signInWithEmailAndPassword(email, password)
+    //Goes into firebase, gets the currently logged in user, grabs the userType value and returns it
+    //Have to do this because firebase auth doesnt allow for custom claims 
+    //We run both types because we are unsure of the type at first until it is grabbed and the trycatch block allows us to catch the error without crashing the app
+    async function getTrainerType(currentUser) {
+        if (currentUser) {
+            try {
+                const trainerRef = await db.collection('trainers').doc(currentUser.email).get();
+                const trainerType = await trainerRef.data().userType
+                return trainerType
+            } catch (error) {
+                console.error(error)
+            }
+        }
+    }
+    
+    async function getClientType(currentUser) {
+        if (currentUser) {
+            try {
+                const clientRef = await db.collection('users').doc(currentUser.uid).get()
+                const clientType = await clientRef.data().userType
+                
+                return clientType
+            } catch (error) {
+                console.error(error)
+            }
+        }
+    }
+    //Refactor this - got weird error infinite loop when tried to add this action into getClientType function
+    async function getClientTrainerEmail(currentUser) {
+        if (currentUser) {
+            try {
+                const clientTrainerEmailRef = await db.collection('users').doc(currentUser.uid).get()
+                const clientTrainerEmail = await clientTrainerEmailRef.data().clientTrainer
+                
+                return clientTrainerEmail
+            } catch (error) {
+                console.error(error)
+            }
+        }
     }
 
-    function logout () {
+    //Get client type value from database by calling this function from authcontext, passing in currentuser, and setting componnent state
+    getClientType(currentUser).then((clientType) => {
+        setClientTypeState(clientType)
+    })
+    
+
+    // Get trainer type value from database by calling this function from authcontext, passing in currentuser, and setting componnent state
+    getTrainerType(currentUser).then((trainerType) => {
+        setTrainerTypeState(trainerType)
+    })
+
+    getClientTrainerEmail(currentUser).then((clientTrainerEmail) => {
+        setClientTrainerEmailState(clientTrainerEmail)
+    })
+
+    async function login(email, password) {
+        return auth.signInWithEmailAndPassword(email, password)
+
+    }
+
+    function logout() {
         return auth.signOut()
     }
 
     function resetPassword(email) {
+        
+
         return auth.sendPasswordResetEmail(email)
     }
 
@@ -102,8 +168,14 @@ export function AuthProvider({ children }) {
     //this object is passed to our provider, we want current user
     //also pass signup so we can use anywhere
     const value = {
+        clientTrainerEmailState,
+        clientTypeState,
+        trainerTypeState,
+        email,
         uid,
         currentUser,
+        getClientType,
+        getTrainerType,
         signup,
         login,
         logout,
