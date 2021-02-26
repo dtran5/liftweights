@@ -1,1 +1,222 @@
-/* No CSS *//*# sourceMappingURL=App.css.map */
+@import url("https://fonts.googleapis.com/css2?family=Raleway&display=swap");
+* {
+  font-family: 'Raleway', sans-serif;
+  padding: 0;
+  margin: 0;
+}
+
+.dashboard {
+  border: 2px solid blue;
+}
+
+.dashboard__h2 {
+  border: 2px solid red;
+}
+
+.icon {
+  font-family: 'Material Icons', serif;
+  font-style: normal;
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-feature-settings: 'liga';
+          font-feature-settings: 'liga';
+}
+
+/* GENERAL */
+* {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+body {
+  font-family: 'Open Sans', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+  font-size: 1em;
+  font-weight: 300;
+  line-height: 1.5;
+  position: relative;
+}
+
+header {
+  display: block;
+  width: 100%;
+  padding: 1.75em 0;
+  border-bottom: 1px solid lightgray;
+  background: white;
+}
+
+/* GRID */
+.row {
+  margin: 0;
+  padding: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  width: 100%;
+}
+
+.row-middle {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.column {
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  -ms-flex-preferred-size: 0;
+      flex-basis: 0;
+  max-width: 100%;
+}
+
+/* Calendar */
+.calendar {
+  display: block;
+  position: relative;
+  width: 90%;
+  background: white;
+  border: 1px solid lightgray;
+  height: auto;
+  margin: 0 auto;
+  padding-left: 2rem;
+}
+
+.calendar .header {
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 115%;
+  padding: 1.5em 0;
+  border-bottom: 1px solid lightgray;
+}
+
+.calendar .header .icon {
+  cursor: pointer;
+  -webkit-transition: .15s ease-out;
+  transition: .15s ease-out;
+}
+
+.calendar .header .icon:hover {
+  -webkit-transform: scale(1.75);
+          transform: scale(1.75);
+  -webkit-transition: .25s ease-out;
+  transition: .25s ease-out;
+  color: dodgerblue;
+}
+
+.calendar .header .icon:first-of-type {
+  margin-left: 1em;
+}
+
+.calendar .header .icon:last-of-type {
+  margin-right: 1em;
+}
+
+.calendar .days {
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 400;
+  color: gray;
+  font-size: 70%;
+  padding: .75em 0;
+  border-bottom: 1px solid lightgray;
+}
+
+.calendar .body .cell {
+  position: relative;
+  height: 6em;
+  border-right: 1px solid lightgray;
+  overflow: hidden;
+  cursor: pointer;
+  background: white;
+  -webkit-transition: 0.25s ease-out;
+  transition: 0.25s ease-out;
+}
+
+.calendar .body .cell:hover {
+  background: whitesmoke;
+  -webkit-transition: 0.5s ease-out;
+  transition: 0.5s ease-out;
+}
+
+.calendar .body .selected {
+  border-left: 10px solid transparent;
+  -o-border-image: linear-gradient(45deg, #1affa0 0%, #cff153 40%);
+     border-image: linear-gradient(45deg, #1affa0 0%, #cff153 40%);
+  border-image-slice: 1;
+}
+
+.calendar .body .row {
+  border-bottom: 1px solid lightgray;
+}
+
+.calendar .body .row:last-child {
+  border-bottom: none;
+}
+
+.calendar .body .cell:last-child {
+  border-right: none;
+}
+
+.calendar .body .cell .number {
+  position: absolute;
+  font-size: 82.5%;
+  line-height: 1;
+  top: .75em;
+  right: .75em;
+  font-weight: 700;
+}
+
+.calendar .body .cell:hover .number, .calendar .body .selected .number {
+  visibility: hidden;
+}
+
+.calendar .body .disabled {
+  color: lightgray;
+  pointer-events: none;
+}
+
+.calendar .body .cell .bg {
+  font-weight: 700;
+  line-height: 1;
+  color: #1affa0;
+  opacity: 0;
+  font-size: 5em;
+  position: absolute;
+  top: -.2em;
+  right: -.05em;
+  -webkit-transition: .25s ease-out;
+  transition: .25s ease-out;
+  letter-spacing: -.07em;
+}
+
+.calendar .body .cell:hover .bg, .calendar .body .selected .bg {
+  opacity: 0.2;
+  -webkit-transition: .5s ease-in;
+  transition: .5s ease-in;
+}
+
+.calendar .body .column {
+  -webkit-box-flex: 0;
+      -ms-flex-positive: 0;
+          flex-grow: 0;
+  -ms-flex-preferred-size: calc(100%/7);
+      flex-basis: calc(100%/7);
+  width: calc(100%/7);
+}
+/*# sourceMappingURL=App.css.map */

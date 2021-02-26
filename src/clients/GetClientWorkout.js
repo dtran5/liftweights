@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import { db } from '../firebase'
 import { useAuth } from '../contexts/AuthContext'
 import { Container, Table } from 'react-bootstrap'
 import RenderClientWorkout from './RenderClientWorkout';
-
 
 function GetClientWorkout() {
     const emailOfClient = useParams().email
@@ -37,6 +36,7 @@ function GetClientWorkout() {
 
     return (
         <>
+            <Link to={`/training/${emailOfClient}`}>Back</Link>
            <Container className="d-flex justify-content-center align-items-center vh-100">
                     <Table striped bordered hover className="w-75">
                         <thead>

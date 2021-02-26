@@ -22,13 +22,13 @@ function Dashboard() {
     return (
         <>
             <Container
-                className="d-flex align-items-center justify-content-center"
+                className="dashboard d-flex align-items-center justify-content-center"
                 style={{ minHeight: "100vh" }}
             >
                 <div className="w-100" style={{ maxWidth: "400px" }}>
                     <Card>
                         <Card.Body>
-                            <h2 className="text-center mb-4">Profile</h2>
+                            <h2 className="dashboard__h2 text-center mb-4 custom-class">Profile</h2>
                             {error && <Alert variant="danger">{error}</Alert>}
                             <strong>User: </strong> {trainerTypeState ? 'Trainer' : 'Client'}
                             <br />
