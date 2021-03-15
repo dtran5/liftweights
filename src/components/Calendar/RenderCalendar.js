@@ -1,16 +1,14 @@
-import React from 'react';
+import React from "react";
 
-import Calendar from './Calendar'
+import Calendar from "./Calendar";
 
 const RenderCalendar = (props) => {
-    //show the calendar that is created by the trainer matched by email
-    return (
-        <>
-            <div>
-                <Calendar items={props}/>
-            </div>
-        </>
-    )
-}
+  //show the calendar that is created by the trainer matched by email
+  return (
+    <>
+      <Calendar items={props} />
+    </>
+  );
+};
 
-export default RenderCalendar
+export default RenderCalendar;

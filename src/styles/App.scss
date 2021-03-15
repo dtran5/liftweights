@@ -1,24 +1,83 @@
-@import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Raleway&display=swap");
+@import url(https://fonts.googleapis.com/icon?family=Material+Icons);
 
-$mainYellow: yellow;
+$lightGreen: #abd1c9ff;
+$lightGrey: #dfdce5ff;
+$nugget: #dbb04aff;
+$lightBlue: #97b3d0ff;
+$mediumBlue: #97b3d0;
+$darkBlue: #23383f;
 
 * {
-    font-family: 'Raleway', sans-serif;
-    padding: 0;
-    margin: 0;
+  font-family: "Raleway", sans-serif;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 
-// .dashboard {
+//BUTTONS
 
-//     border: 2px solid blue;
+.allbuttons {
+  text-transform: uppercase;
+}
 
-//     &__h2 {
-//         border: 2px solid red;
-//     }
-// }
+//NAVBAR-----------------
 
-.icon {
-    font-family: 'Material Icons', serif;
+.navbar {
+  background: rgba($darkBlue, 0.65);
+
+  &__displayname {
+    color: $darkBlue;
+    font-weight: 600;
+  }
+}
+
+//CALENDAR---------------
+
+.row {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+}
+.column {
+  flex-grow: 1;
+  flex-basis: 0;
+  max-width: 100%;
+}
+
+.calendar {
+  display: block;
+  position: relative;
+  width: 90%;
+  background: white;
+  border: 1px solid $lightGrey;
+  height: auto;
+  margin: 0 auto 2rem auto;
+  padding: 0 0 0 1.875rem;
+
+  &__body {
+    font-size: 1em;
+    font-weight: 300;
+    line-height: 1.5;
+    position: relative;
+  }
+
+  &__header {
+    color: $nugget;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 115%;
+    padding: 1.5em 0;
+    border-bottom: 1px solid lightgray;
+  }
+
+  &__icon {
+    color: $lightBlue;
+    font-family: "Material Icons", serif;
     font-style: normal;
     display: inline-block;
     vertical-align: middle;
@@ -31,87 +90,36 @@ $mainYellow: yellow;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
     -moz-osx-font-smoothing: grayscale;
-    font-feature-settings: 'liga';
-}
-/* GENERAL */
-* {
-    box-sizing: border-box;
-}
-body {
-    font-family: 'Open Sans', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
-    font-size: 1em;
-    font-weight: 300;
-    line-height: 1.5;
-    position: relative;
-}
-header {
-    display: block;
-    width: 100%;
-    padding: 1.75em 0;
-    border-bottom: 1px solid lightgray;
-    background: white;
-}
-/* GRID */
-.row {
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    width: 100%;
-}
-.row-middle {
-    align-items: center;
-}
-.column {
-    flex-grow: 1;
-    flex-basis: 0;
-    max-width: 100%;
-}
-/* Calendar */
-.calendar {
-    display: block;
-    position: relative;
-    width: 90%;
-    background: white;
-    border: 1px solid lightgray;
-    height: auto;
-    margin: 0 auto;
-    padding-left: 2rem;
-}
-.calendar .header {
-    text-align: center;
-    text-transform: uppercase;
-    font-weight: 700;
-    font-size: 115%;
-    padding: 1.5em 0;
-    border-bottom: 1px solid lightgray;
-}
-.calendar .header .icon {
+    font-feature-settings: "liga";
     cursor: pointer;
-    transition: .15s ease-out;
-}
-.calendar .header .icon:hover {
+    transition: 0.15s ease-out;
+  }
+
+  &__icon:hover {
     transform: scale(1.75);
-    transition: .25s ease-out;
-    color: dodgerblue;
-}
-.calendar .header .icon:first-of-type {
+    transition: 0.25s ease-out;
+    color: $nugget;
+  }
+
+  &__icon:first-of-type {
     margin-left: 1em;
-}
-.calendar .header .icon:last-of-type {
+  }
+
+  &__icon:last-of-type {
     margin-right: 1em;
-}
-.calendar .days {
+  }
+
+  &__days {
     text-align: center;
     text-transform: uppercase;
     font-weight: 400;
     color: gray;
     font-size: 70%;
-    padding: .75em 0;
+    padding: 0.75em 0;
     border-bottom: 1px solid lightgray;
-}
-.calendar .body .cell {
+  }
+
+  &__cell {
     position: relative;
     height: 6em;
     border-right: 1px solid lightgray;
@@ -119,58 +127,135 @@ header {
     cursor: pointer;
     background: white;
     transition: 0.25s ease-out;
-}
-.calendar .body .cell:hover {
+  }
+
+  &__cell:hover {
     background: whitesmoke;
     transition: 0.5s ease-out;
-}
-.calendar .body .selected {
-    border-left: 10px solid transparent;
-    border-image: linear-gradient(45deg, #1affa0 0%,#cff153 40%);
-    border-image-slice: 1;
-}
-.calendar .body .row {
-    border-bottom: 1px solid lightgray;
-}
-.calendar .body .row:last-child {
-    border-bottom: none;
-}
-.calendar .body .cell:last-child {
+  }
+
+  &__cell:hover .calendar__number {
+    visibility: hidden;
+  }
+
+  &__cell:hover .calendar__bg {
+    opacity: 0.2;
+    transition: 0.5s ease-in;
+  }
+
+  &__cell:last-child {
     border-right: none;
-}
-.calendar .body .cell .number {
+  }
+
+  &__number {
+    color: $lightBlue;
     position: absolute;
     font-size: 82.5%;
     line-height: 1;
-    top: .75em;
-    right: .75em;
+    top: 0.75em;
+    right: 0.75em;
     font-weight: 700;
-}
-.calendar .body .cell:hover .number, .calendar .body .selected .number   {
-    visibility:hidden;
-}
-.calendar .body .disabled {
+  }
+
+  &__number:hover {
+    visibility: hidden;
+  }
+
+  &__selected {
+    border: 3px solid transparent;
+    border-image: linear-gradient(80deg, $lightGreen 10%, $lightGrey 40%);
+    border-image-slice: 1;
+  }
+
+  &__selected .calendar__bg {
+    opacity: 0.4;
+    transition: 0.5s ease-in;
+  }
+
+  &__selected .calendar__number {
+    visibility: hidden;
+  }
+
+  &__disabled {
     color: lightgray;
     pointer-events: none;
-}
-.calendar .body .cell .bg {
+  }
+
+  &__bg {
     font-weight: 700;
     line-height: 1;
-    color: #1affa0;
+    color: $nugget;
     opacity: 0;
     font-size: 5em;
     position: absolute;
-    top: -.2em;
-    right: -.05em;
-    transition: .25s ease-out;
-    letter-spacing: -.07em;
-}
-.calendar .body .cell:hover .bg, .calendar .body .selected .bg  {
-    opacity: 0.2;
-    transition: .5s ease-in;
-}
-.calendar .body .column {
+    top: -0.2em;
+    right: -0.05em;
+    transition: 0.25s ease-out;
+    letter-spacing: -0.07em;
+  }
+
+  &__column {
     flex-grow: 0;
-    flex-basis: calc(100%/7);
-    width: calc(100%/7);
+    flex-basis: calc(100% / 7);
+    width: calc(100% / 7);
+  }
+
+  &__row {
+    border-bottom: 1px solid lightgray;
+  }
+
+  &__row:last-child {
+    border-bottom: none;
+  }
+}
+
+//CLIENTS LIST-------------
+
+.clientlist {
+  &__form--input {
+    color: $darkBlue;
+  }
+
+  &__form-header {
+    color: $darkBlue;
+  }
+
+  &__table {
+    border: 1px solid $lightGrey;
+    border-collapse: collapse;
+  }
+
+  &__item {
+    width: 100%;
+  }
+
+  &__names {
+    color: $darkBlue;
+  }
+}
+
+//RECORD WORKOUT TRAINER USER TYPE-------------
+
+.recordworkout {
+  &__table-head {
+    color: $darkBlue;
+  }
+
+  &__table-body {
+    color: $darkBlue;
+    font-size: 1em;
+  }
+}
+
+//CLIENT WORKOUT CLIENT USER TYPE------------
+
+.clientworkout {
+  &__table-head {
+    color: $darkBlue;
+  }
+
+  &__table-body {
+    color: $darkBlue;
+    font-size: 1em;
+  }
 }
